@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog de Ciberseguridad</title>
+
+    <style>
+        /* Estilo global */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo para los encabezados */
+        h1 {
+            text-align: center;
+            color: #3e4a89;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #3e4a89;
+            margin-top: 30px;
+            font-size: 1.8rem;
+        }
+
+        /* Estilo para los formularios */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            padding: 12px;
+            font-size: 1.1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            width: 100%;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            border-color: #3e4a89;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #3e4a89;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2e3b64;
+        }
+
+        /* Estilo para los mensajes flash */
+        .flash-message {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .flash-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .flash-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        /* Estilo para la lista de artículos */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        li h3 {
+            margin: 0;
+            color: #3e4a89;
+            font-size: 1.5rem;
+        }
+
+        li p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        li span {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        a {
+            color: #3e4a89;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #2e3b64;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Blog de Ciberseguridad</h1>
+
+        <!-- Mostrar mensajes flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-message">
+                    {% for category, message in messages %}
+                        <div class="flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Formulario de agregar artículo -->
+        <form action="{{ url_for('add') }}" method="POST">
+            <input type="text" name="titulo" placeholder="Título del artículo" required>
+            <textarea name="introduccion" placeholder="Introducción al artículo" required></textarea>
+            <input type="number" name="anio" placeholder="Año de publicación" required>
+            <input type="text" name="autores" placeholder="Autores del artículo" required>
+            <button type="submit">Agregar Artículo</button>
+        </form>
+
+        <h2>Artículos</h2>
+        <ul>
+            {% for articulo in articulos %}
+                <li>
+                    <h3>{{ articulo[1] }}</h3>
+                    <p>{{ articulo[2] }}</p>
+                    <p><strong>Año:</strong> {{ articulo[3] }}</p>
+                    <p><strong>Autores:</strong> {{ articulo[4] }}</p>
+                    <span>
+                        <a href="{{ url_for('edit', id=articulo[0]) }}">Editar</a>
+                        <a href="{{ url_for('delete', id=articulo[0]) }}">Eliminar</a>
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>
