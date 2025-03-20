@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Artículo</title>
+</head>
+<body>
+    <h1>Editar Artículo</h1>
+    <form action="{{ url_for('update', id=articulo[0]) }}" method="POST">
+        <label for="titulo">Título:</label>
+        <input type="text" name="titulo" value="{{ articulo[1] }}" required><br><br>
+
+        <label for="introduccion">Introducción:</label>
+        <textarea name="introduccion" required>{{ articulo[2] }}</textarea><br><br>
+
+        <label for="anio">Año:</label>
+        <input type="number" name="anio" value="{{ articulo[3] }}" required><br><br>
+
+        <label for="autores">Autores:</label>
+        <input type="text" name="autores" value="{{ articulo[4] }}" required><br><br>
+
+        <input type="submit" value="Actualizar">
+    </form>
+    <a href="/">Cancelar</a>
+</body>
+</html>
